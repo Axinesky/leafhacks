@@ -1,0 +1,47 @@
+/*
+ * Frontend ElevenLabs client. Calls our /api/audio/tts proxy (key stays server-side)
+ * and plays the returned audio. Great for reducing reading load for ADHD learners.
+ */
+
+/** A few named voices so modules can pick a tone without knowing voice IDs.
+ * Replace the IDs with real ones from your ElevenLabs account. */
+export const VOICES = {
+  narrator: "21m00Tcm4TlvDq8ikWAM", // calm default (Rachel)
+  warm: "EXAVITQu4vr4xnSDxMaL", // softer, reassuring
+  dramatic: "ErXwobaYiN019PkySvjV", // for literature read-alouds
+} as const;
+
+export type VoiceName = keyof typeof VOICES;
+
+let current: HTMLAudioElement | null = null;
+
+/** Speak `text` aloud. Cancels any previous playback so audio never overlaps. */
+export async function speak(
+  text: string,
+  voice: VoiceName = "narrator",
+  signal?: AbortSignal,
+): Promise<void> {
+  stop();
+  const res = await fetch("/api/audio/tts", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ text, voiceId: VOICES[voice] }),
+    signal,
+  });
+  if (!res.ok) throw new Error(`TTS failed: ${res.status} ${await res.text()}`);
+
+  const blob = await res.blob();
+  const url = URL.createObjectURL(blob);
+  const audio = new Audio(url);
+  current = audio;
+  audio.addEventListener("ended", () => URL.revokeObjectURL(url), { once: true });
+  await audio.play();
+}
+
+/** Stop any current narration. */
+export function stop(): void {
+  if (current) {
+    current.pause();
+    current = null;
+  }
+}

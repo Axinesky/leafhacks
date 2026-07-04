@@ -1,0 +1,214 @@
+.english__head {
+  margin-bottom: var(--space-6);
+}
+.english__eyebrow {
+  color: var(--accent);
+  font-size: 0.6rem;
+  margin: 0 0 var(--space-4);
+}
+.english h1 {
+  margin: 0 0 var(--space-4);
+}
+.english__h2 {
+  font-size: 0.85rem;
+  margin: 0 0 var(--space-4);
+}
+.english__block {
+  margin-top: var(--space-8);
+}
+
+/* Tags under the title */
+.english__tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+.tag {
+  font-size: 0.5rem;
+  padding: var(--space-2) var(--space-3);
+  background: var(--surface-2);
+  color: var(--text);
+  border: var(--border-w) solid var(--ink);
+  border-radius: 999px;
+}
+.tag--exam {
+  background: var(--gold);
+  color: var(--ink);
+}
+
+/* XP reward toast */
+.english__reward {
+  display: inline-block;
+  margin-bottom: var(--space-4);
+  padding: var(--space-2) var(--space-4);
+  font-size: 0.6rem;
+  color: var(--ink);
+  background: var(--gold);
+  border: var(--border-w) solid var(--ink);
+  border-radius: 999px;
+  box-shadow: var(--shadow-hard-sm);
+  animation: pop 0.25s ease;
+}
+@keyframes pop {
+  from {
+    transform: scale(0.85);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* Exam task */
+.english__task {
+  border-left: 6px solid var(--gold);
+}
+.english__question {
+  font-family: var(--font-reading);
+  font-size: 1.15rem;
+  font-weight: 700;
+  margin: 0 0 var(--space-4);
+}
+.english__sub {
+  color: var(--text-muted);
+  margin: 0 0 var(--space-2);
+}
+.english__list {
+  margin: 0;
+  padding-left: 1.2em;
+  line-height: var(--line-reading);
+}
+.english__list li {
+  margin-bottom: var(--space-2);
+}
+
+/* Extract */
+.english__passage {
+  margin-top: var(--space-6);
+  border-left: 6px solid var(--accent);
+}
+.english__speaker {
+  font-family: var(--font-pixel);
+  font-size: 0.7rem;
+  color: var(--accent);
+  margin: 0 0 var(--space-4);
+}
+.english__text {
+  font-family: var(--font-reading);
+  font-size: 1.35rem;
+  line-height: var(--line-reading);
+  font-weight: 600;
+  white-space: pre-line;
+  margin: 0 0 var(--space-6);
+}
+.english__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+}
+
+.english__error {
+  color: #fff;
+  background: var(--berry);
+  border: var(--border-w) solid var(--ink);
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-hard-sm);
+  margin-top: var(--space-4);
+}
+
+.english__figure {
+  margin: var(--space-8) 0 0;
+}
+.english__figure img {
+  width: 100%;
+  max-width: 100%;
+  border: var(--border-w) solid var(--ink);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-hard);
+}
+.english__figure figcaption {
+  font-family: var(--font-pixel);
+  color: var(--text-muted);
+  font-size: 0.55rem;
+  margin-top: var(--space-3);
+}
+
+/* Theme chips */
+.english__chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+.chip {
+  padding: var(--space-2) var(--space-4);
+  background: var(--accent-soft);
+  color: var(--text);
+  border: var(--border-w) solid var(--ink);
+  border-radius: 999px;
+  font-weight: 700;
+  font-size: 0.95rem;
+}
+
+/* Assessment objectives */
+.english__aos {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: var(--space-4);
+}
+.ao {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  padding: var(--space-4);
+}
+.ao__code {
+  align-self: flex-start;
+  font-size: 0.6rem;
+  padding: var(--space-1) var(--space-3);
+  background: var(--accent);
+  color: var(--accent-contrast);
+  border: 2px solid var(--ink);
+  border-radius: 999px;
+}
+.ao__text {
+  margin: 0;
+  color: var(--text-muted);
+}
+
+/* Practise / examiner feedback */
+.english__srlabel {
+  position: absolute;
+  left: -9999px;
+}
+.english__textarea {
+  width: 100%;
+  font-family: var(--font-reading);
+  font-size: 1.05rem;
+  line-height: 1.6;
+  padding: var(--space-4);
+  background: var(--bg);
+  color: var(--text);
+  border: var(--border-w) solid var(--ink);
+  border-radius: var(--radius);
+  resize: vertical;
+  margin-bottom: var(--space-4);
+}
+.english__feedback {
+  margin-top: var(--space-6);
+  padding: var(--space-4);
+  background: var(--gold-soft);
+  border: var(--border-w) solid var(--ink);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-hard-sm);
+  line-height: var(--line-reading);
+}
+.english__feedbackhead {
+  font-size: 0.6rem;
+  color: var(--ink);
+  margin: 0 0 var(--space-2);
+}
+.english__feedback p:last-child {
+  margin: 0;
+}

@@ -1,0 +1,146 @@
+@import "./tokens.css";
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-sans);
+  font-size: var(--text-base);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  /* faint pixel-grid texture so flat areas feel like game canvas */
+  background-image: radial-gradient(
+    rgba(58, 43, 33, 0.035) 1px,
+    transparent 1px
+  );
+  background-size: 4px 4px;
+}
+
+/* Pixel font for headings + short HUD labels */
+h1,
+h2,
+h3,
+.pixel {
+  font-family: var(--font-pixel);
+  font-weight: 400;
+  line-height: 1.5;
+  letter-spacing: 0.02em;
+}
+h1 {
+  font-size: clamp(1.1rem, 3.5vw, 1.6rem);
+}
+h2 {
+  font-size: 1rem;
+}
+
+a {
+  color: var(--accent);
+}
+
+/* Crisp, high-contrast focus for keyboard users. Never remove */
+:focus-visible {
+  outline: 3px solid var(--focus-ring);
+  outline-offset: 3px;
+}
+
+/* Respect reduced motion: critical for vestibular / ADHD comfort */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+.skip-link {
+  position: absolute;
+  left: -999px;
+  top: var(--space-2);
+  background: var(--surface);
+  color: var(--text);
+  padding: var(--space-2) var(--space-4);
+  border: var(--border-w) solid var(--ink);
+  border-radius: var(--radius);
+  z-index: 100;
+}
+.skip-link:focus {
+  left: var(--space-2);
+}
+
+/* Chunky game button: thick outline, hard shadow, satisfying press */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  padding: var(--space-3) var(--space-4);
+  min-height: 46px;
+  font-family: var(--font-pixel);
+  font-size: 0.7rem;
+  color: var(--accent-contrast);
+  background: var(--accent);
+  border: var(--border-w) solid var(--ink);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-hard-sm);
+  cursor: pointer;
+  transition: transform 0.08s ease, box-shadow 0.08s ease, filter 0.12s ease;
+}
+.btn:hover {
+  filter: brightness(1.05);
+}
+/* press-down: button sinks into its shadow like a real key */
+.btn:active {
+  transform: translate(2px, 2px);
+  box-shadow: 0 0 0 var(--ink);
+}
+.btn:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: var(--shadow-hard-sm);
+}
+.btn--ghost {
+  background: var(--surface);
+  color: var(--ink);
+}
+.btn--gold {
+  background: var(--gold);
+  color: var(--ink);
+}
+
+/* Game panel: the core surface, like a UI window in a cosy game */
+.card,
+.panel {
+  background: var(--surface);
+  border: var(--border-w) solid var(--ink);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-hard);
+  padding: var(--space-6);
+}
+
+/* Reusable XP / progress bar */
+.xpbar {
+  height: 18px;
+  background: var(--surface-2);
+  border: var(--border-w) solid var(--ink);
+  border-radius: 999px;
+  overflow: hidden;
+}
+.xpbar__fill {
+  height: 100%;
+  background: var(--gold);
+  transition: width 0.4s ease;
+}

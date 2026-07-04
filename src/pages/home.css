@@ -1,0 +1,58 @@
+.home__hero {
+  max-width: 640px;
+  margin-bottom: var(--space-8);
+}
+.home__eyebrow {
+  color: var(--accent);
+  font-size: 0.6rem;
+  margin: 0 0 var(--space-4);
+}
+.home__hero h1 {
+  margin: 0 0 var(--space-4);
+}
+.home__lede {
+  color: var(--text-muted);
+  font-size: 1.1rem;
+  line-height: 1.6;
+  margin: 0;
+}
+
+.home__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: var(--space-6);
+}
+
+.home__quest {
+  text-decoration: none;
+  color: var(--text);
+  border-top: 6px solid var(--accent);
+  transition: transform 0.1s ease, box-shadow 0.1s ease;
+}
+.home__quest:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0 var(--ink);
+}
+.home__questtop {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.home__glyph {
+  font-size: 2.2rem;
+}
+.home__lv {
+  font-size: 0.55rem;
+  padding: var(--space-1) var(--space-2);
+  background: var(--gold);
+  color: var(--ink);
+  border: 2px solid var(--ink);
+  border-radius: 999px;
+}
+.home__quest h2 {
+  margin: var(--space-3) 0 var(--space-2);
+}
+.home__quest p {
+  margin: 0 0 var(--space-4);
+  color: var(--text-muted);
+}

@@ -80,6 +80,40 @@ The app runs without keys: the AI and audio features simply show a friendly
 in `.env` (which is gitignored) and are used server-side, so they never reach
 the browser.
 
+## Root cause analysis: GCE deployment and ElevenLabs failures
+
+If the app works locally but fails on GCE, the most common root cause is a split
+deployment:
+
+- frontend served on one host
+- API proxy served on another host or port
+
+Previously, the frontend always called relative paths such as `/api/audio/tts`.
+That only works when the frontend and API are on the same origin (or when Vite
+dev proxy is running). On GCE this often causes requests to hit the frontend
+server instead of the API proxy, returning 404/502 responses and making
+ElevenLabs appear broken.
+
+### Fix applied
+
+- Added `VITE_API_BASE_URL` support, so production builds can target the API
+  proxy origin explicitly.
+- Added `.env.example` with all required variables.
+- Improved upstream error reporting in the API proxy, so ElevenLabs and Gemini
+  failures include real provider details instead of a generic proxy error.
+
+### Deployment checks for GCE
+
+1. Set API secrets on the API runtime:
+   - `GEMINI_API_KEY`
+   - `ELEVENLABS_API_KEY`
+2. Set frontend build variable:
+   - `VITE_API_BASE_URL=https://<your-api-domain-or-ip>`
+3. Confirm health endpoint from browser network:
+   - `GET ${VITE_API_BASE_URL}/api/health`
+4. Confirm ElevenLabs response details if it fails:
+   - `POST /api/audio/tts` now returns provider error details in `details`.
+
 ## How it is built
 
 ```

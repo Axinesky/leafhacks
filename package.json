@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.1.0",
   "type": "module",
-  "description": "SocialLearning — accessible EduTech for ADHD and social anxiety",
+  "description": "SocialLearning: accessible EduTech for ADHD and social anxiety",
   "scripts": {
     "dev": "concurrently -n web,api -c cyan,magenta \"npm:dev:web\" \"npm:dev:api\"",
     "dev:web": "vite",

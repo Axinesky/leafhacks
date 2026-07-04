@@ -1,3 +1,5 @@
+import { apiUrl } from "@/shared/api/apiUrl";
+
 /*
  * Frontend Gemini client. It never sees the API key, it just calls our own
  * /api/ai/* proxy, which adds the key server-side. Use these from any module.
@@ -15,7 +17,7 @@ export async function generateText(
   prompt: string,
   opts: GenerateTextOptions = {},
 ): Promise<string> {
-  const res = await fetch("/api/ai/text", {
+  const res = await fetch(apiUrl("/api/ai/text"), {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ prompt, system: opts.system }),
@@ -34,7 +36,7 @@ export async function generateImage(
   prompt: string,
   signal?: AbortSignal,
 ): Promise<string> {
-  const res = await fetch("/api/ai/image", {
+  const res = await fetch(apiUrl("/api/ai/image"), {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ prompt }),

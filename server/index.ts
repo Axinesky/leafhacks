@@ -16,6 +16,7 @@ app.use(express.json({ limit: "1mb" }));
 const GEMINI_KEY = process.env.GEMINI_API_KEY;
 const ELEVEN_KEY = process.env.ELEVENLABS_API_KEY;
 const PORT = Number(process.env.API_PORT ?? 8787);
+const ELEVEN_MODEL = process.env.ELEVENLABS_MODEL ?? "eleven_multilingual_v2";
 
 // Models: override via env if you want a different one.
 const TEXT_MODEL = process.env.GEMINI_TEXT_MODEL ?? "gemini-2.5-flash";
@@ -27,6 +28,17 @@ function requireKey(res: express.Response, key: string | undefined, name: string
     return false;
   }
   return true;
+}
+
+async function readErrorBody(r: Response): Promise<string> {
+  const raw = await r.text();
+  if (!raw) return "No details returned by upstream service.";
+  try {
+    const parsed = JSON.parse(raw) as { detail?: { message?: string }; message?: string };
+    return parsed.detail?.message ?? parsed.message ?? raw;
+  } catch {
+    return raw;
+  }
 }
 
 /** Text generation (explanations, simplified rephrasings, quiz items). */
@@ -49,7 +61,11 @@ app.post("/api/ai/text", async (req, res) => {
         }),
       },
     );
-    if (!r.ok) return res.status(502).json({ error: await r.text() });
+    if (!r.ok) {
+      return res
+        .status(r.status)
+        .json({ error: "Gemini text request failed.", details: await readErrorBody(r) });
+    }
     const data = await r.json();
     const text =
       data?.candidates?.[0]?.content?.parts
@@ -78,7 +94,11 @@ app.post("/api/ai/image", async (req, res) => {
         }),
       },
     );
-    if (!r.ok) return res.status(502).json({ error: await r.text() });
+    if (!r.ok) {
+      return res
+        .status(r.status)
+        .json({ error: "Gemini image request failed.", details: await readErrorBody(r) });
+    }
     const data = await r.json();
     const parts = data?.candidates?.[0]?.content?.parts ?? [];
     const img = parts.find(
@@ -113,11 +133,15 @@ app.post("/api/audio/tts", async (req, res) => {
         },
         body: JSON.stringify({
           text,
-          model_id: "eleven_multilingual_v2",
+          model_id: ELEVEN_MODEL,
         }),
       },
     );
-    if (!r.ok) return res.status(502).json({ error: await r.text() });
+    if (!r.ok) {
+      return res
+        .status(r.status)
+        .json({ error: "ElevenLabs request failed.", details: await readErrorBody(r) });
+    }
     const buf = Buffer.from(await r.arrayBuffer());
     res.setHeader("Content-Type", "audio/mpeg");
     res.send(buf);
@@ -148,6 +172,7 @@ app.get("/api/health", (_req, res) =>
     ok: true,
     gemini: Boolean(GEMINI_KEY),
     elevenlabs: Boolean(ELEVEN_KEY),
+    elevenlabsModel: ELEVEN_MODEL,
   }),
 );
 

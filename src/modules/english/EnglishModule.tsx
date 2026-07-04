@@ -29,7 +29,7 @@ export function EnglishModule() {
     setError(null);
     try {
       setNarrating(true);
-      await speak(T.extract, "dramatic");
+      await speak(T.extract, "historical");
     } catch (e) {
       setError(errMessage(e));
     } finally {
@@ -43,7 +43,11 @@ export function EnglishModule() {
     try {
       setImage(await generateImage(T.scenePrompt));
     } catch (e) {
-      setError(errMessage(e));
+      const msg = errMessage(e);
+      if (isGeminiCreditIssue(msg)) {
+        setImage(fallbackSceneCard(T.scenePrompt));
+      }
+      setError(msg);
     } finally {
       setLoadingImage(false);
     }
@@ -243,9 +247,64 @@ export function EnglishModule() {
 
 function errMessage(e: unknown): string {
   const msg = e instanceof Error ? e.message : String(e);
+  if (isGeminiCreditIssue(msg)) {
+    return (
+      "Image generation is temporarily unavailable because Gemini credits are exhausted. " +
+      "A fallback scene card is shown below. Top up credits in Google AI Studio, then try again."
+    );
+  }
   return msg.includes("500") || msg.includes("key")
     ? "The AI service isn't configured yet. Add your API keys to .env and restart."
     : msg;
+}
+
+function isGeminiCreditIssue(msg: string): boolean {
+  const lower = msg.toLowerCase();
+  return (
+    lower.includes("429") &&
+    (lower.includes("prepayment credits are depleted") ||
+      lower.includes("resource_exhausted") ||
+      lower.includes("gemini image request failed"))
+  );
+}
+
+function fallbackSceneCard(scenePrompt: string): string {
+  const svg = `
+    <svg xmlns="http://www.w3.org/2000/svg" width="1024" height="640" viewBox="0 0 1024 640" role="img" aria-label="Scene prompt fallback card">
+      <defs>
+        <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0%" stop-color="#1f2a44" />
+          <stop offset="100%" stop-color="#4d2c53" />
+        </linearGradient>
+      </defs>
+      <rect width="1024" height="640" fill="url(#bg)" />
+      <rect x="48" y="48" width="928" height="544" rx="20" fill="#ffffff" fill-opacity="0.1" stroke="#f6d46b" stroke-width="3" />
+      <text x="80" y="130" fill="#f6d46b" font-family="Nunito, sans-serif" font-size="40" font-weight="700">
+        Scene visualisation paused
+      </text>
+      <text x="80" y="190" fill="#f3f6ff" font-family="Nunito, sans-serif" font-size="28">
+        Gemini credits are currently exhausted.
+      </text>
+      <text x="80" y="250" fill="#f3f6ff" font-family="Nunito, sans-serif" font-size="26">
+        Keep analysing the extract with this prompt:
+      </text>
+      <foreignObject x="80" y="286" width="860" height="250">
+        <div xmlns="http://www.w3.org/1999/xhtml" style="font-family: Nunito, sans-serif; color: #ffffff; font-size: 24px; line-height: 1.4;">
+          ${escapeHtml(scenePrompt)}
+        </div>
+      </foreignObject>
+    </svg>
+  `.trim();
+  return `data:image/svg+xml;charset=utf-8,${encodeURIComponent(svg)}`;
+}
+
+function escapeHtml(value: string): string {
+  return value
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#39;");
 }
 
 export default EnglishModule;

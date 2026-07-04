@@ -95,9 +95,18 @@ app.post("/api/ai/image", async (req, res) => {
       },
     );
     if (!r.ok) {
-      return res
-        .status(r.status)
-        .json({ error: "Gemini image request failed.", details: await readErrorBody(r) });
+      const details = await readErrorBody(r);
+      const depleted = details.toLowerCase().includes("prepayment credits are depleted");
+      return res.status(r.status).json({
+        error: "Gemini image request failed.",
+        details,
+        ...(depleted
+          ? {
+              guidance:
+                "Top up Gemini prepayment credits in Google AI Studio, then retry image generation.",
+            }
+          : {}),
+      });
     }
     const data = await r.json();
     const parts = data?.candidates?.[0]?.content?.parts ?? [];

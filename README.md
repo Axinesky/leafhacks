@@ -114,6 +114,24 @@ ElevenLabs appear broken.
 4. Confirm ElevenLabs response details if it fails:
    - `POST /api/audio/tts` now returns provider error details in `details`.
 
+## Troubleshooting: Gemini image `429 RESOURCE_EXHAUSTED`
+
+If you see this error, it is a billing state issue rather than a code bug:
+
+- `Gemini image request failed`
+- status `429`
+- message contains `prepayment credits are depleted`
+
+What to do:
+
+1. Open Google AI Studio: https://ai.studio/projects
+2. Select the same project used by `GEMINI_API_KEY`
+3. Add or top up prepayment credits
+4. Retry image generation in the app
+
+The app now shows a fallback scene card when this happens, so students can keep
+working while credits are being restored.
+
 ## How it is built
 
 ```

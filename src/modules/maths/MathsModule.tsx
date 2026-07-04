@@ -7,6 +7,7 @@ import {
 } from "@/shared/audio/elevenLabsClient";
 import { addXp } from "@/shared/progress/useProgress";
 import { FunctionGraph } from "./FunctionGraph";
+import { PracticeQuestions } from "./PracticeQuestions";
 import { TOPICS, getTopic, type MathsTopic } from "./topics";
 import "./maths.css";
 
@@ -193,6 +194,8 @@ function MathsTopicView({ topic, onBack }: { topic: MathsTopic; onBack: () => vo
           </p>
         )}
       </div>
+
+      <PracticeQuestions topicId={topic.id} />
     </article>
   );
 }

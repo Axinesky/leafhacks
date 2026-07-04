@@ -1,53 +1,117 @@
 # SocialLearning
 
-Calm, accessible EduTech for learners with ADHD and social anxiety. Lessons
-become multi-sensory: narrated audio (ElevenLabs) and AI-generated visuals
-(Google Gemini), with a low-stimulation, self-paced interface.
+**Learning that adapts to how your brain works.** SocialLearning is a calm,
+game-inspired revision platform built for students with ADHD and social anxiety,
+where every learner sets their own pace, stimulation level and support tools.
 
-## Quick start
+Built at **Leafhacks** (EduTech track), powered by **Google Gemini** and
+**ElevenLabs**, and developed with **Cursor**.
+
+## The problem
+
+Most learning apps are built for one kind of attention. For students with ADHD,
+a wall of text and a busy interface means skim, distract and give up. For
+students with social anxiety, live classes, leaderboards and public performance
+add pressure that gets in the way of actually learning.
+
+SocialLearning turns revision into short, rewarding quests you take at your own
+pace, with no live faces, no leaderboards and nothing to keep up with.
+
+## What it does
+
+- **Quest-based lessons.** Each lesson is broken into short, focused stages
+  shown one at a time, with progress dots, a time estimate and an XP reward for
+  finishing each stage. One thing on screen at a time, so it never overwhelms.
+- **AQA GCSE English (Macbeth).** A full close-reading quest: the extract,
+  themes, Jacobean context, the assessment objectives, and an exam-style
+  question.
+- **AI examiner feedback.** Students write a paragraph and **Gemini** marks it
+  like a supportive AQA examiner against AO1, AO2 and AO3, with one clear target
+  to improve.
+- **Narrated reading (ElevenLabs).** Any passage can be read aloud, reducing the
+  reading load that makes text hard for ADHD learners.
+- **AI-drawn scenes (Gemini).** Turn an abstract passage into a picture to
+  anchor it in something concrete.
+- **The reading buddy.** A pixel mascot hops word by word along the text,
+  revealing it one word at a time to keep the eye moving.
+- **Encouragement, not pressure.** A rotating educational and motivational quote
+  greets students on the homepage.
+
+## Accessibility is the point, not an add-on
+
+On first run, every student sets the experience up to suit them, and can change
+it any time from Settings:
+
+- **Colour theme** (Meadow, Dusk, Ocean, Mono)
+- **Text size** (Small, Medium, Large)
+- **Look and feel:** Cosy Pixel (a playful game aesthetic) or Plain and Calm
+  (minimal and low-stimulation) so each learner chooses their own stimulation
+  level
+- **Reduce motion** and a **dyslexia-friendly easy-read font**
+
+Throughout, the app uses large touch targets, visible keyboard focus, high
+contrast, and respects the operating system's reduced-motion setting. Progress
+is all gain and never loss: no punishing streaks or leaderboards, which matters
+for anxious learners.
+
+## Built with
+
+- **React + TypeScript + Vite** for a fast, component-based frontend
+- **React Router** for the module and lesson routing
+- **Google Gemini API** for examiner feedback and scene images
+- **ElevenLabs API** for narrated audio
+- **Express** as a small proxy that keeps API keys server-side
+- Self-hosted pixel and reading fonts, so it works offline at the event
+- Developed with **Cursor**
+
+## Getting started
 
 ```bash
 npm install
-cp .env.example .env   # then paste your Gemini + ElevenLabs keys into .env
-npm run dev            # runs the web app + API proxy together
+cp .env.example .env   # then add your Gemini and ElevenLabs keys
+npm run dev            # runs the web app and API proxy together
 ```
 
 - Web app: http://localhost:5173
-- API proxy: http://localhost:8787 (check http://localhost:8787/api/health)
+- API proxy health check: http://localhost:8787/api/health
 
-The app works without keys — AI/audio buttons just show a friendly "not
-configured" message until you fill in `.env`.
+The app runs without keys: the AI and audio features simply show a friendly
+"not configured yet" message until the keys are added to `.env`. Keys live only
+in `.env` (which is gitignored) and are used server-side, so they never reach
+the browser.
 
-## Who owns what
+## How it is built
 
-| Area | Path | Owner |
-| --- | --- | --- |
-| English module | `src/modules/english/` | you |
-| Maths module | `src/modules/maths/` | collaborator |
-| Certificates & pixel art | `src/shared/` (add here) | designer |
-| Shared shell / design | `src/shared/`, `src/styles/` | shared |
-
-## Adding a module
-
-1. Create `src/modules/<name>/<Name>Module.tsx` exporting a default component.
-2. Register it in `src/modules/registry.tsx`.
-   It automatically appears in the sidebar and gets a route at `/learn/<name>`.
-
-## Using AI + audio from a module
-
-```ts
-import { speak } from "@/shared/audio/elevenLabsClient";
-import { generateImage, generateText } from "@/shared/ai/geminiClient";
-
-await speak("Read this aloud", "dramatic");
-const url = await generateImage("a moody castle at dusk");
-const note = await generateText("Explain this line simply", { system: "You are a calm tutor." });
+```
+src/
+  modules/          each subject is a self-contained module
+    english/        AQA GCSE Macbeth (content + UI)
+    maths/          visual maths (in progress)
+    registry.tsx    register a module here and it appears automatically
+  pages/            welcome (onboarding), home
+  shared/
+    quest/          the stage-by-stage lesson stepper
+    prefs/          accessibility preferences, applied app-wide
+    buddy/          the reading buddy
+    ai/             Gemini client (talks to the proxy)
+    audio/          ElevenLabs client (talks to the proxy)
+    progress/       XP and levels
+  styles/           design tokens and themes
+server/             the API proxy that holds the keys
 ```
 
-These call the proxy in `server/` — **API keys never touch the frontend.**
+Adding a subject is one file plus one line: create
+`src/modules/<name>/<Name>Module.tsx` and register it in
+`src/modules/registry.tsx`. It then appears in the sidebar with its own route.
 
-## Design principles (the anti-"AI slop" rules)
+## The team
 
-- Muted, warm palette; one accent per module — see `src/styles/tokens.css`.
-- Respect `prefers-reduced-motion`; large hit targets; visible focus rings.
-- Deliberate, on-tone AI prompts — not generic output.
+- **English module and website:** the reading quest, onboarding and shared shell
+- **Maths module:** visual, animated maths lessons
+- **Design:** pixel art, the reading buddy sprite and certificates
+
+## How it was built
+
+Manually programmed by the team, assisted with Claude Code, and proof-read by a
+human. The code, comments and copy were reviewed and adjusted by hand rather
+than shipped as-generated.

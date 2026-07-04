@@ -1,0 +1,97 @@
+.quest {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+}
+
+/* Progress dots */
+.quest__dots {
+  display: flex;
+  gap: var(--space-2);
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.quest__dot {
+  flex: 1;
+  height: 12px;
+  background: var(--surface-2);
+  border: var(--border-w) solid var(--ink);
+  border-radius: 999px;
+  position: relative;
+  transition: background 0.2s ease;
+}
+.quest__dot.is-done {
+  background: var(--accent);
+}
+.quest__dot.is-current {
+  background: var(--gold);
+}
+.quest__dotlabel {
+  position: absolute;
+  left: -9999px;
+}
+
+.quest__head {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+.quest__step {
+  font-size: 0.55rem;
+  color: var(--text-muted);
+  margin: 0;
+}
+.quest__title {
+  margin: 0;
+}
+
+.quest__body {
+  min-height: 40vh;
+}
+
+.quest__nav {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-3);
+  padding-top: var(--space-4);
+  border-top: 2px dashed var(--border);
+}
+
+/* Completion screen */
+.quest__complete {
+  text-align: center;
+  padding: var(--space-12) var(--space-6);
+}
+.quest__badge {
+  font-size: 4rem;
+  margin: 0 0 var(--space-4);
+  animation: badgepop 0.4s ease;
+}
+@keyframes badgepop {
+  from {
+    transform: scale(0.4) rotate(-12deg);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1) rotate(0);
+    opacity: 1;
+  }
+}
+.quest__completesub {
+  color: var(--text-muted);
+  max-width: 460px;
+  margin: 0 auto var(--space-6);
+  line-height: var(--line-reading);
+}
+.quest__xpwon {
+  display: inline-block;
+  font-size: 0.8rem;
+  color: var(--ink);
+  background: var(--gold);
+  border: var(--border-w) solid var(--ink);
+  border-radius: 999px;
+  padding: var(--space-3) var(--space-6);
+  box-shadow: var(--shadow-hard-sm);
+  margin-bottom: var(--space-8);
+}

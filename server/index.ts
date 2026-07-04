@@ -126,6 +126,23 @@ app.post("/api/audio/tts", async (req, res) => {
   }
 });
 
+/*
+ * A fresh educational / motivational quote. No key needed. The frontend already
+ * falls back to a local list, so if this source is down it is not a problem.
+ */
+app.get("/api/quote", async (_req, res) => {
+  try {
+    const r = await fetch(
+      "https://api.quotable.io/random?tags=education|wisdom|inspirational&maxLength=140",
+    );
+    if (!r.ok) return res.status(502).json({ error: "quote source down" });
+    const data = await r.json();
+    res.json({ text: data.content, author: data.author });
+  } catch (e) {
+    res.status(502).json({ error: String(e) });
+  }
+});
+
 app.get("/api/health", (_req, res) =>
   res.json({
     ok: true,

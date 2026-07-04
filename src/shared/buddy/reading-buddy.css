@@ -1,0 +1,81 @@
+.buddy {
+  position: relative;
+}
+.buddy__play {
+  margin-bottom: var(--space-4);
+}
+
+.buddy__text {
+  position: relative;
+}
+
+/* Each word is inline-block so it can pop and so the buddy can be measured. */
+.buddy__word {
+  display: inline-block;
+  transition: opacity 0.18s ease, transform 0.18s ease;
+}
+
+/* While the buddy is revealing, not-yet-reached words sit dimmed and ready. */
+.buddy.is-playing .buddy__word:not(.is-shown) {
+  opacity: 0.14;
+  transform: translateY(3px);
+}
+/* A word pops as the buddy lands on it. Only animate during a reveal. */
+.buddy.is-playing .buddy__word.is-shown {
+  animation: wordpop 0.32s ease;
+}
+@keyframes wordpop {
+  0% {
+    opacity: 0;
+    transform: translateY(7px) scale(0.9);
+  }
+  55% {
+    opacity: 1;
+    transform: translateY(-2px) scale(1.04);
+  }
+  100% {
+    transform: none;
+  }
+}
+
+/*
+ * The pixel buddy. A placeholder sprite drawn in CSS in Claude's coral, with
+ * two eyes and a gentle bob. Swap the whole block for the designer's pixel art.
+ */
+.buddy__sprite {
+  position: absolute;
+  width: 24px;
+  height: 24px;
+  background: #da7756;
+  border: 3px solid var(--ink);
+  border-radius: 5px;
+  transition: left 0.22s cubic-bezier(0.5, -0.4, 0.5, 1.4), top 0.22s ease;
+  animation: bob 0.5s ease-in-out infinite;
+  z-index: 2;
+  pointer-events: none;
+}
+.buddy__sprite::before,
+.buddy__sprite::after {
+  content: "";
+  position: absolute;
+  top: 7px;
+  width: 5px;
+  height: 5px;
+  background: var(--ink);
+}
+.buddy__sprite::before {
+  left: 4px;
+}
+.buddy__sprite::after {
+  right: 4px;
+}
+/* The bob keeps the buddy anchored just above its word while it hops. */
+@keyframes bob {
+  0%,
+  100% {
+    transform: translate(-50%, -118%);
+  }
+  50% {
+    transform: translate(-50%, -140%);
+  }
+}

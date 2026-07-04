@@ -1,23 +1,14 @@
 import { NavLink, Outlet } from "react-router-dom";
-import { useEffect, useState } from "react";
 import { modules } from "@/modules/registry";
 import { useProgress, levelFromXp } from "@/shared/progress/useProgress";
 import "./app-shell.css";
 
 /**
  * The game HUD frame: a party/quest panel on the left with an XP bar, plus a
- * quick accessibility toggle. Modules render into <Outlet/>.
+ * link back to the settings/customise page. Modules render into <Outlet/>.
  */
 export function AppShell() {
   const { xpFor, level, into, needed, pct } = useProgress();
-  const [dyslexic, setDyslexic] = useState(
-    () => localStorage.getItem("reading") === "dyslexic",
-  );
-
-  useEffect(() => {
-    document.documentElement.dataset.reading = dyslexic ? "dyslexic" : "";
-    localStorage.setItem("reading", dyslexic ? "dyslexic" : "default");
-  }, [dyslexic]);
 
   return (
     <div className="shell">
@@ -66,14 +57,9 @@ export function AppShell() {
           })}
         </nav>
 
-        <button
-          type="button"
-          className="btn btn--ghost shell__a11y"
-          aria-pressed={dyslexic}
-          onClick={() => setDyslexic((v) => !v)}
-        >
-          {dyslexic ? "Standard" : "Easy-read"}
-        </button>
+        <NavLink to="/welcome" className="btn btn--ghost shell__a11y">
+          ⚙ Settings
+        </NavLink>
       </aside>
 
       <main id="main" className="shell__main">

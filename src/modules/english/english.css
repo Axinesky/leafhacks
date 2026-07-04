@@ -17,6 +17,19 @@
   margin-top: var(--space-8);
 }
 
+/* A short calm instruction line at the top of each stage. */
+.english__instruction {
+  color: var(--text-muted);
+  line-height: var(--line-reading);
+  margin: 0 0 var(--space-4);
+}
+.english__contextlist {
+  font-size: 1.05rem;
+}
+.english__contextlist li {
+  margin-bottom: var(--space-3);
+}
+
 /* Tags under the title */
 .english__tags {
   display: flex;

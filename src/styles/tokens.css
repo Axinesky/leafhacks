@@ -19,12 +19,14 @@
   --text: #3a2b21;
   --text-muted: #7a6551;
 
-  /* Cosy game accents, each module overrides --accent locally */
-  --accent: #4f9d69;        /* grass green */
-  --accent-soft: #d9edcf;
+  /* Cosy game accents, each module overrides --accent locally.
+     Soft tints are derived with color-mix so colour themes only need to set
+     --accent and --gold, and the tints stay correct in light and dark. */
+  --accent: #4f9d69;        /* grass green (Meadow, the default theme) */
+  --accent-soft: color-mix(in srgb, var(--accent) 22%, var(--surface));
   --accent-contrast: #ffffff;
   --gold: #e8b53f;          /* XP / coins / rewards */
-  --gold-soft: #f6e3a8;
+  --gold-soft: color-mix(in srgb, var(--gold) 30%, var(--surface));
   --berry: #c85b6b;         /* alerts, hearts */
 
   --focus-ring: #2f6fd0;
@@ -63,10 +65,8 @@
     --text: #f4e9d0;
     --text-muted: #b8a48d;
     --accent: #6fbf85;
-    --accent-soft: #2f4234;
     --accent-contrast: #12100e;
     --gold: #f0c357;
-    --gold-soft: #4a3f22;
     --berry: #e07d8b;
     --focus-ring: #7ca6ee;
     /* Hard shadow needs a darker ink so it reads on dark surfaces */
@@ -82,4 +82,45 @@
   --line-reading: 1.95;
   letter-spacing: 0.01em;
   word-spacing: 0.06em;
+}
+
+/* Colour themes (data-theme). Only accent + gold are set; soft tints derive. */
+:root[data-theme="meadow"] { --accent: #4f9d69; --gold: #e8b53f; }
+:root[data-theme="dusk"]   { --accent: #6f5bd0; --gold: #d9a441; }
+:root[data-theme="ocean"]  { --accent: #2f86b5; --gold: #e8b53f; }
+:root[data-theme="mono"]   { --accent: #6f6a60; --gold: #a49a88; }
+
+/* Brighter accents so the themes stay legible on the dark parchment. */
+@media (prefers-color-scheme: dark) {
+  :root[data-theme="meadow"] { --accent: #6fbf85; }
+  :root[data-theme="dusk"]   { --accent: #9a8ae6; }
+  :root[data-theme="ocean"]  { --accent: #5fb0dc; }
+  :root[data-theme="mono"]   { --accent: #b7b0a2; }
+}
+
+/* Text size (data-text). Scales the whole rem-based layout. */
+:root[data-text="small"]  { font-size: 93.75%; }
+:root[data-text="medium"] { font-size: 100%; }
+:root[data-text="large"]  { font-size: 115%; }
+
+/* Plain aesthetic (data-aesthetic="plain"): calm and minimal. Strips the game
+   chrome, thin borders, soft shadows, no pixel font. Lower stimulation. */
+:root[data-aesthetic="plain"] {
+  --font-pixel: var(--font-sans);
+  --border-w: 1px;
+  --radius: 12px;
+  --radius-lg: 18px;
+  --shadow-hard: 0 1px 2px rgba(0, 0, 0, 0.05), 0 8px 24px rgba(0, 0, 0, 0.06);
+  --shadow-hard-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+/* Reduced motion (data-motion="reduced"): same effect as the OS setting, but
+   chosen in-app so pupils can calm the screen without touching system prefs. */
+:root[data-motion="reduced"] *,
+:root[data-motion="reduced"] *::before,
+:root[data-motion="reduced"] *::after {
+  animation-duration: 0.001ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.001ms !important;
+  scroll-behavior: auto !important;
 }

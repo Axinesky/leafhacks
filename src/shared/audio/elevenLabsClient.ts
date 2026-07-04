@@ -6,12 +6,17 @@ import { apiUrl } from "@/shared/api/apiUrl";
  */
 
 /** A few named voices so modules can pick a tone without knowing voice IDs.
- * Replace the IDs with real ones from your ElevenLabs account. */
+ *
+ * IMPORTANT: only use voices from ElevenLabs' CURRENT lineup. The old legacy
+ * voices (Rachel 21m00Tcm4TlvDq8ikWAM, Antoni ErXwobaYiN019PkySvjV, etc.) have
+ * been deprecated and return voice_not_found on newer accounts, which is why
+ * narration silently failed for some modules. If a voice is still missing on
+ * your account, the server falls back to a known-good default voice. */
 export const VOICES = {
-  narrator: "21m00Tcm4TlvDq8ikWAM", // calm default (Rachel)
-  warm: "EXAVITQu4vr4xnSDxMaL", // softer, reassuring
-  dramatic: "ErXwobaYiN019PkySvjV", // for literature read-alouds
-  historical: "JBFqnCBsd6RMkjVDRZzb", // deep, warm British storyteller (George)
+  narrator: "Xb7hH8MSUJpSbSDYk0k2", // Alice: clear, confident British
+  warm: "EXAVITQu4vr4xnSDxMaL", // Sarah: soft, reassuring
+  dramatic: "onwK4e9ZLuTAKqWW03F9", // Daniel: deep, authoritative British
+  historical: "JBFqnCBsd6RMkjVDRZzb", // George: warm British storyteller
 } as const;
 
 export type VoiceName = keyof typeof VOICES;

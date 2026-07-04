@@ -32,6 +32,8 @@ interface Props {
   wordMs?: number;
   /** Set false for a decorative, always-on buddy with no button (e.g. a quote). */
   controls?: boolean;
+  /** A short line shown in a pixel speech bubble next to the buddy. */
+  greeting?: string;
 }
 
 const DEFAULT_WORD_MS = 420;
@@ -45,6 +47,7 @@ export function ReadingBuddy({
   voice,
   wordMs = DEFAULT_WORD_MS,
   controls = true,
+  greeting,
 }: Props) {
   // Split into tokens keeping the whitespace, so spacing and wrapping are natural.
   const tokens = useMemo(() => text.split(/(\s+)/), [text]);
@@ -127,9 +130,24 @@ export function ReadingBuddy({
   // Stop any narration if this unmounts.
   useEffect(() => () => stop(), []);
 
-  // The buddy always sits on the "active" word: the first word before you start,
-  // the current word while revealing, and the last word once finished.
-  const active = started ? Math.min(Math.max(shown - 1, 0), total - 1) : 0;
+  // Decorative buddy: gently hop from word to word on a loop, so it is clearly
+  // alive rather than sitting still. Held in place if the pupil chose reduced motion.
+  const [hopIndex, setHopIndex] = useState(0);
+  useEffect(() => {
+    if (!decorative || total < 2 || reducedMotion()) return;
+    const id = window.setInterval(() => {
+      setHopIndex((h) => (h + 1) % total);
+    }, 950);
+    return () => window.clearInterval(id);
+  }, [decorative, total]);
+
+  // The buddy always sits on the "active" word: hopping along when decorative,
+  // otherwise the first word before you start and the current word while revealing.
+  const active = decorative
+    ? hopIndex
+    : started
+      ? Math.min(Math.max(shown - 1, 0), total - 1)
+      : 0;
   useLayoutEffect(() => {
     const place = () => {
       const el = wordEls.current[wordIndices[active]];
@@ -182,6 +200,15 @@ export function ReadingBuddy({
             style={{ left: buddy.x, top: buddy.y }}
             aria-hidden="true"
           />
+        )}
+        {buddy && greeting && (
+          <span
+            className="buddy__bubble pixel"
+            style={{ left: buddy.x, top: buddy.y }}
+            aria-hidden="true"
+          >
+            {greeting}
+          </span>
         )}
       </p>
     </div>

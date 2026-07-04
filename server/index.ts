@@ -151,9 +151,22 @@ app.post("/api/ai/image", async (req, res) => {
 /** Text-to-speech via ElevenLabs: streams back audio/mpeg. */
 app.post("/api/audio/tts", async (req, res) => {
   if (!requireKey(res, ELEVEN_KEY, "ELEVENLABS_API_KEY")) return;
-  const { text, voiceId } = req.body as { text?: string; voiceId?: string };
+  const { text, voiceId, voiceSettings } = req.body as {
+    text?: string;
+    voiceId?: string;
+    voiceSettings?: Record<string, unknown>;
+  };
   if (!text || !voiceId)
     return res.status(400).json({ error: "Missing 'text' or 'voiceId'." });
+
+  // Expressive default (good for dramatic reading); callers can override, e.g.
+  // maths sends clearer, steadier settings for accurate narration.
+  const settings = voiceSettings ?? {
+    stability: 0.4,
+    similarity_boost: 0.85,
+    style: 0.3,
+    use_speaker_boost: true,
+  };
 
   try {
     const r = await fetch(
@@ -168,14 +181,7 @@ app.post("/api/audio/tts", async (req, res) => {
         body: JSON.stringify({
           text,
           model_id: ELEVEN_MODEL,
-          // Lower stability + speaker boost gives a warmer, more natural, less
-          // robotic delivery. Tune these to taste per voice.
-          voice_settings: {
-            stability: 0.4,
-            similarity_boost: 0.85,
-            style: 0.3,
-            use_speaker_boost: true,
-          },
+          voice_settings: settings,
         }),
       },
     );

@@ -1,0 +1,160 @@
+.reflect {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+  max-width: 720px;
+}
+
+.reflect__eyebrow {
+  color: var(--accent);
+  font-size: 0.6rem;
+  margin: 0 0 var(--space-3);
+}
+.reflect__hero h1 {
+  margin: 0 0 var(--space-3);
+}
+.reflect__lede {
+  margin: 0;
+  color: var(--text-muted);
+  line-height: var(--line-reading);
+}
+
+.reflect__tools {
+  display: flex;
+  gap: var(--space-3);
+}
+
+/* Chat */
+.reflect__chat {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+.reflect__messages {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  max-height: 46vh;
+  overflow-y: auto;
+  padding-right: var(--space-2);
+}
+.reflect__msg {
+  max-width: 80%;
+  padding: var(--space-3) var(--space-4);
+  border: var(--border-w) solid var(--ink);
+  border-radius: var(--radius);
+  line-height: 1.5;
+}
+.reflect__msg--buddy {
+  align-self: flex-start;
+  background: var(--surface-2);
+  color: var(--text);
+}
+.reflect__msg--you {
+  align-self: flex-end;
+  background: var(--accent);
+  color: var(--accent-contrast);
+}
+
+/* Typing indicator */
+.reflect__typing {
+  display: flex;
+  gap: 5px;
+  align-items: center;
+}
+.reflect__typing span {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--text-muted);
+  animation: typing 1s infinite ease-in-out;
+}
+.reflect__typing span:nth-child(2) {
+  animation-delay: 0.15s;
+}
+.reflect__typing span:nth-child(3) {
+  animation-delay: 0.3s;
+}
+@keyframes typing {
+  0%,
+  100% {
+    opacity: 0.3;
+    transform: translateY(0);
+  }
+  50% {
+    opacity: 1;
+    transform: translateY(-3px);
+  }
+}
+
+.reflect__quick {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+.reflect__chip {
+  padding: var(--space-2) var(--space-4);
+  font: inherit;
+  font-weight: 600;
+  color: var(--text);
+  background: var(--accent-soft);
+  border: 2px solid var(--ink);
+  border-radius: 999px;
+  cursor: pointer;
+}
+.reflect__chip:hover {
+  filter: brightness(0.97);
+}
+
+.reflect__inputrow {
+  display: flex;
+  gap: var(--space-3);
+}
+.reflect__srlabel {
+  position: absolute;
+  left: -9999px;
+}
+.reflect__input {
+  flex: 1;
+  min-width: 0;
+  font: inherit;
+  padding: var(--space-3) var(--space-4);
+  color: var(--text);
+  background: var(--bg);
+  border: var(--border-w) solid var(--ink);
+  border-radius: var(--radius);
+}
+
+.reflect__safety {
+  color: var(--text-muted);
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+.reflect__safety p {
+  margin: 0 0 var(--space-2);
+}
+.reflect__help strong {
+  color: var(--text);
+}
+
+/* Breathing exercise */
+.breathe {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-4);
+  padding: var(--space-8) var(--space-6);
+}
+.breathe__circle {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  background: var(--accent-soft);
+  border: var(--border-w) solid var(--accent);
+  transition-property: transform;
+  transition-timing-function: ease-in-out;
+}
+.breathe__label {
+  font-size: 0.75rem;
+  color: var(--accent);
+}

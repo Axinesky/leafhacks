@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { speak, stop } from "@/shared/audio/elevenLabsClient";
+import { speak, stop, CLEAR_VOICE } from "@/shared/audio/elevenLabsClient";
 import { addXp } from "@/shared/progress/useProgress";
 import { FunctionGraph } from "./FunctionGraph";
 import { TOPICS, getTopic, type MathsTopic } from "./topics";
@@ -74,7 +74,7 @@ function MathsTopicView({ topic, onBack }: { topic: MathsTopic; onBack: () => vo
   async function explain() {
     setNarrating(true);
     try {
-      await speak(topic.explain, "warm");
+      await speak(topic.explain, "narrator", CLEAR_VOICE);
     } catch {
       // Audio is optional; ignore if it is unavailable.
     } finally {

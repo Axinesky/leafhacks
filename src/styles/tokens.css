@@ -17,7 +17,7 @@
   --surface-2: #d7e8f8;   /* sunken panel */
   --ink: #21384d;         /* dark outline + text (deep slate blue) */
   --text: #21384d;
-  --text-muted: #5c7488;
+  --text-muted: #4d647a;  /* darkened for stronger contrast */
 
   /* Game accents, each module overrides --accent locally.
      Soft tints are derived with color-mix so colour themes only need to set

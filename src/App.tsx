@@ -8,6 +8,7 @@ import { AppShell } from "@/shared/layout/AppShell";
 import { Home } from "@/pages/Home";
 import { ModuleRoute } from "@/pages/ModuleRoute";
 import { Welcome } from "@/pages/Welcome";
+import { Reflect } from "@/pages/Reflect";
 import { usePrefs } from "@/shared/prefs/usePrefs";
 
 /** Send first-time visitors to the welcome page to set their preferences. */
@@ -29,6 +30,7 @@ const router = createBrowserRouter([
     children: [
       { index: true, element: <Home /> },
       { path: "learn/:id", element: <ModuleRoute /> },
+      { path: "reflect", element: <Reflect /> },
     ],
   },
 ]);

@@ -44,6 +44,12 @@ export function AppShell() {
             </span>
             <span className="shell__linktext">Home</span>
           </NavLink>
+          <NavLink to="/reflect" className="shell__link">
+            <span className="shell__glyph" aria-hidden="true">
+              🌿
+            </span>
+            <span className="shell__linktext">Reflect</span>
+          </NavLink>
           {modules.map((m) => {
             const mlevel = levelFromXp(xpFor(m.id)).level;
             return (

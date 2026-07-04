@@ -16,23 +16,39 @@ export const VOICES = {
 
 export type VoiceName = keyof typeof VOICES;
 
+export interface VoiceSettings {
+  stability?: number;
+  similarity_boost?: number;
+  style?: number;
+  use_speaker_boost?: boolean;
+}
+
+// Clear, steady settings for factual narration (maths). Higher stability and no
+// style exaggeration means fewer mispronunciations and a calmer, accurate read.
+export const CLEAR_VOICE: VoiceSettings = {
+  stability: 0.7,
+  similarity_boost: 0.85,
+  style: 0,
+  use_speaker_boost: true,
+};
+
 let current: HTMLAudioElement | null = null;
 
 /**
  * Speak `text` aloud. Cancels any previous playback so audio never overlaps.
  * Returns the audio element so callers can sync to it (e.g. the reading buddy).
+ * Pass `settings` to tune delivery (e.g. CLEAR_VOICE for instructional content).
  */
 export async function speak(
   text: string,
   voice: VoiceName = "narrator",
-  signal?: AbortSignal,
+  settings?: VoiceSettings,
 ): Promise<HTMLAudioElement> {
   stop();
   const res = await fetch(apiUrl("/api/audio/tts"), {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ text, voiceId: VOICES[voice] }),
-    signal,
+    body: JSON.stringify({ text, voiceId: VOICES[voice], voiceSettings: settings }),
   });
   if (!res.ok) throw new Error(`TTS failed: ${res.status} ${await readError(res)}`);
 

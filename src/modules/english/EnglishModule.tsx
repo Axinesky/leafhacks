@@ -2,7 +2,13 @@ import { useState } from "react";
 import { generateImage, generateText } from "@/shared/ai/geminiClient";
 import { Quest, type Stage } from "@/shared/quest/Quest";
 import { ReadingBuddy } from "@/shared/buddy/ReadingBuddy";
-import { LESSONS, getLesson, EXAMINER_SYSTEM, type GcseText } from "./content";
+import {
+  LESSONS,
+  getLesson,
+  EXAMINER_SYSTEM,
+  buildMarkingPrompt,
+  type GcseText,
+} from "./content";
 import "./english.css";
 
 /*
@@ -92,10 +98,9 @@ function EnglishLesson({ lesson: T, onBack }: { lesson: GcseText; onBack: () => 
     setMarking(true);
     setFeedback(null);
     try {
-      const result = await generateText(
-        `Question: ${T.question}\n\nPupil's paragraph:\n${answer}`,
-        { system: EXAMINER_SYSTEM },
-      );
+      const result = await generateText(buildMarkingPrompt(T, answer), {
+        system: EXAMINER_SYSTEM,
+      });
       setFeedback(result);
     } catch (e) {
       setError(errMessage(e));

@@ -61,9 +61,9 @@ export const TOPICS: MathsTopic[] = [
       },
     ],
     explain:
-      "This is a quadratic, so its graph is a U-shaped parabola. Factorising splits " +
-      "it into two brackets. The solutions are where the curve crosses the x axis, " +
-      "here at x equals 2 and x equals 3.",
+      "This is a quadratic equation, so its graph is a U-shaped curve called a parabola. " +
+      "Factorising splits the equation into two brackets. The solutions are the points " +
+      "where the curve crosses the x-axis. Here, that is where x equals two, and where x equals three.",
   },
   {
     id: "straight-line-graphs",
@@ -88,9 +88,9 @@ export const TOPICS: MathsTopic[] = [
       { text: "So this line is:", eq: "y = 2x + 1" },
     ],
     explain:
-      "A straight line follows y equals m x plus c. The number c is where it crosses " +
-      "the y axis. The number m is the gradient, which tells you how steep the line " +
-      "is. Here c is 1 and m is 2.",
+      "A straight line follows the rule: y equals m times x, plus c. The letter c tells " +
+      "you where the line crosses the y-axis. The letter m is the gradient, which tells " +
+      "you how steep the line is. In this example, c is one, and m is two.",
   },
   {
     id: "parabola-turning-point",
@@ -121,9 +121,9 @@ export const TOPICS: MathsTopic[] = [
       },
     ],
     explain:
-      "This parabola crosses the x axis at x equals 1 and x equals 5. Its turning " +
-      "point, the very bottom of the U, sits exactly halfway between the roots at x " +
-      "equals 3, giving the lowest point 3, minus 4.",
+      "This parabola crosses the x-axis at x equals one, and at x equals five. Its turning " +
+      "point, the very bottom of the U shape, sits exactly halfway between them, at x equals " +
+      "three. That gives the lowest point, where x is three and y is negative four.",
   },
 ];
 

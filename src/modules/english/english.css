@@ -265,4 +265,5 @@
 }
 .english__feedback p:last-child {
   margin: 0;
+  white-space: pre-line;
 }

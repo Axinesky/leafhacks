@@ -133,9 +133,12 @@ a {
   transform: none;
   box-shadow: var(--shadow-hard-sm);
 }
+/* Ghost buttons (e.g. Back). Use --text (not --ink) so the label stays readable
+   in dark mode, where --ink is near-black and would vanish on a dark surface. */
 .btn--ghost {
   background: var(--surface);
-  color: var(--ink);
+  color: var(--text);
+  font-weight: 700;
 }
 .btn--gold {
   background: var(--gold);

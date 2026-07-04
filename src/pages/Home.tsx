@@ -28,7 +28,12 @@ export function Home() {
           perched on it as a friendly, always-present mascot. */}
       <figure className="home__quote panel">
         <blockquote className="home__quoteblock">
-          <ReadingBuddy key={quote.text} text={`“${quote.text}”`} controls={false} />
+          <ReadingBuddy
+            key={quote.text}
+            text={`“${quote.text}”`}
+            controls={false}
+            greeting="Hi, I'm Buddy!"
+          />
         </blockquote>
         <figcaption>{quote.author}</figcaption>
         <button

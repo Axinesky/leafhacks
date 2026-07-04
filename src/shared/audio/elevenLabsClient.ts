@@ -11,6 +11,7 @@ export const VOICES = {
   narrator: "21m00Tcm4TlvDq8ikWAM", // calm default (Rachel)
   warm: "EXAVITQu4vr4xnSDxMaL", // softer, reassuring
   dramatic: "ErXwobaYiN019PkySvjV", // for literature read-alouds
+  historical: "onwK4e9ZLuTAKqWW03F9", // authoritative storyteller tone (Daniel)
 } as const;
 
 export type VoiceName = keyof typeof VOICES;

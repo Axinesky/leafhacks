@@ -1,3 +1,5 @@
+import { apiUrl } from "@/shared/api/apiUrl";
+
 /*
  * Frontend ElevenLabs client. Calls our /api/audio/tts proxy (key stays server-side)
  * and plays the returned audio. Great for reducing reading load for ADHD learners.
@@ -22,13 +24,13 @@ export async function speak(
   signal?: AbortSignal,
 ): Promise<void> {
   stop();
-  const res = await fetch("/api/audio/tts", {
+  const res = await fetch(apiUrl("/api/audio/tts"), {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ text, voiceId: VOICES[voice] }),
     signal,
   });
-  if (!res.ok) throw new Error(`TTS failed: ${res.status} ${await res.text()}`);
+  if (!res.ok) throw new Error(`TTS failed: ${res.status} ${await readError(res)}`);
 
   const blob = await res.blob();
   const url = URL.createObjectURL(blob);
@@ -43,5 +45,16 @@ export function stop(): void {
   if (current) {
     current.pause();
     current = null;
+  }
+}
+
+async function readError(res: Response): Promise<string> {
+  const raw = await res.text();
+  if (!raw) return "No details returned by API.";
+  try {
+    const parsed = JSON.parse(raw) as { error?: string; details?: string };
+    return parsed.details ?? parsed.error ?? raw;
+  } catch {
+    return raw;
   }
 }

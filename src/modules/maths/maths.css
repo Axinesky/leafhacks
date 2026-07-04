@@ -119,6 +119,59 @@
   margin: var(--space-2) 0 0;
 }
 
+/* Practice questions */
+.maths__practice {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  margin-top: var(--space-6);
+  border-left: 6px solid var(--gold);
+}
+.maths__practicehead {
+  font-size: 0.55rem;
+  color: var(--text-muted);
+  margin: 0;
+}
+.maths__q {
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 700;
+  line-height: 1.5;
+}
+.maths__srlabel {
+  position: absolute;
+  left: -9999px;
+}
+.maths__input {
+  width: 100%;
+  font: inherit;
+  font-size: 1.05rem;
+  padding: var(--space-3) var(--space-4);
+  color: var(--text);
+  background: var(--bg);
+  border: var(--border-w) solid var(--ink);
+  border-radius: var(--radius);
+}
+.maths__hint {
+  margin: 0;
+  padding: var(--space-3) var(--space-4);
+  background: var(--accent-soft);
+  border: var(--border-w) solid var(--ink);
+  border-radius: var(--radius);
+  line-height: 1.5;
+}
+.maths__feedback {
+  margin: 0;
+  padding: var(--space-3) var(--space-4);
+  background: var(--surface-2);
+  border: var(--border-w) solid var(--ink);
+  border-radius: var(--radius);
+  line-height: 1.5;
+}
+.maths__feedback--correct {
+  background: var(--gold-soft);
+}
+
 /* The inline SVG graph. Colours come from tokens so it fits every theme. */
 .mgraph {
   width: 100%;
